@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">家計簿</string>
+    <string name="error">No Activity</string>
+    <string name="text">Test RecognizerIntent</string>
+    <string name="button">Speech</string>
+    <string-array name="sort">
+        <item>昇順(1,2,3)</item>
+        <item>降順(3,2,1)</item>
+    </string-array>
+    <string-array name="list">
+        <item>日付</item>
+        <item>名前</item>
+        <item>値段</item>
+    </string-array>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_data_view">DataView</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="description">photo</string>
+    <!--  Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
