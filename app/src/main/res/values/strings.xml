@@ -12,6 +12,11 @@
         <item>名前</item>
         <item>値段</item>
     </string-array>
+    <string-array name="range">
+        <item>年</item>
+        <item>月</item>
+        <item>日</item>
+    </string-array>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_data_view">DataView</string>
     <string name="tab_text_1">Tab 1</string>

@@ -9,7 +9,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 
 
@@ -103,7 +102,7 @@ Log.i("putdata","tab_pos:$ShowMode\n$Year/$Month/$Day")
             fragmentTransaction.commit()
 
         }
-        val other =view.findViewById<TableRow>(R.id.other)
+        val other =view.findViewById<TableRow>(R.id.other2)
         other.setOnClickListener {
             fragmentTransaction.replace(R.id.flagment_box,Category_details.newInstance("その他",ShowMode,Year,Month,Day))
             fragmentTransaction.addToBackStack(null)

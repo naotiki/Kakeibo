@@ -96,8 +96,6 @@ class StartActivity : AppCompatActivity() {
         selected_fun(CalendarDay.today())
         calendarView.selectedDate= CalendarDay.today()
 
-
-
         calendarView.addDecorator(HighlightSaturdayDecorator())
         calendarView.addDecorator(HighlightSundayDecorator())
         calendarView.setOnMonthChangedListener { _, date ->
@@ -149,7 +147,6 @@ class StartActivity : AppCompatActivity() {
                     cursor.moveToNext()
                 }
             }
-
 
 
 

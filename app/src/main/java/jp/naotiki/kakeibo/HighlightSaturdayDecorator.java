@@ -15,7 +15,6 @@ public class HighlightSaturdayDecorator implements DayViewDecorator {
 
     private final Drawable highlightDrawable;
     private static int color = Color.parseColor("#5f0000ff");
-
     public HighlightSaturdayDecorator() {
         highlightDrawable = new ColorDrawable(color);
     }

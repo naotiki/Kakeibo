@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools"
           package="jp.naotiki.kakeibo">
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -11,16 +13,23 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:theme="@style/AppTheme"
             tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".DataView"
-                  android:screenOrientation="portrait">
+        <activity android:name=".CSV_export"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/Theme.TranslucentBackground">
+
+        </activity>
+        <activity
+                android:name=".DataView"
+                android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".Data_correction"
-                android:theme="@style/Theme.TranslucentBackground"
-                android:screenOrientation="portrait">
+                android:screenOrientation="portrait"
+                android:theme="@style/Theme.TranslucentBackground">
         </activity>
-        <activity android:name=".Edit_Activity"
-                  android:screenOrientation="portrait">
+        <activity
+                android:name=".Edit_Activity"
+                android:screenOrientation="portrait">
         </activity>
         <activity
                 android:name=".MainActivity"

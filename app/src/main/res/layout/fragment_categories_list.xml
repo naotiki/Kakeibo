@@ -130,7 +130,7 @@
             <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/other">
+                    android:id="@+id/other2">
 
                 <TextView
                         android:text="その他"

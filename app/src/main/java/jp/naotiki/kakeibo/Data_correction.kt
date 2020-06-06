@@ -24,7 +24,6 @@ class Data_correction : AppCompatActivity() {
         setContentView(R.layout.activity_data_correction)
         val productText=findViewById<EditText>(R.id.ProductEdit)
         val priceText =findViewById<EditText>(R.id.PriceEdit)
-        val intent = getIntent()
         val SQLID=intent.extras?.getInt("ID")?:-1// SQL のID
         val year=intent.extras?.getString("Y")?:""
         val month=intent.extras?.getString("M")?:""

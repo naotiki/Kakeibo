@@ -44,7 +44,7 @@ class DataView : AppCompatActivity(),ViewPager.OnPageChangeListener{
     var position:Int = 1
     private val mPager: ViewPager? = null
     private val mTitles = arrayOf("年", "月", "日")
-
+    var WHERE=""
     // 選択中のタブ番号を保持
     private var selected = 0
 var isDateChenge=false
@@ -166,59 +166,16 @@ tab.getTabAt(1)!!.select()
         }
         val saveCSV_btn =findViewById<ImageButton>(R.id.SaveCSV)
         saveCSV_btn.setOnClickListener {
-        confirmOutput()
+        val intent =Intent(this,CSV_export::class.java)
+            intent.putExtra("Y",year)
+            intent.putExtra("M",month)
+            intent.putExtra("D",day)
+            startActivityForResult(intent,45)
+            //confirmOutput()
         }
 
     }
 
-    fun getDateSQL(getMode:Int){
-        try {
-            arrayListId.clear();arrayListProduct.clear();arrayListPrice.clear();arrayListTag.clear();arrayListDate.clear()
-
-            val dbHelper = DBHelper(applicationContext, dbName, null, dbVersion)
-            val database = dbHelper.readableDatabase
-
-            val sql = when(getMode){
-                0->{
-                    "SELECT * FROM KakeiboTable WHERE year=\"$year\" ORDER BY year,month,day ;"
-                }
-                1->{
-                    "SELECT * FROM KakeiboTable WHERE year=\"$year\" AND month=\"$month\" ORDER BY year,month,day;"
-                }
-                2->{
-                    "SELECT * FROM KakeiboTable WHERE year=\"$year\" AND month=\"$month\" AND day=\"$day\" ORDER BY year,month,day;"
-                }
-                else->{
-                    "SELECT * FROM KakeiboTable"
-                }
-            }
-
-
-            val cursor = database.rawQuery(sql, null)
-            if (cursor.count > 0) {
-                cursor.moveToFirst()
-                while (!cursor.isAfterLast) {
-                    Log.i("my_log","SELECT:${cursor.getString(0)}")
-                    Log.i("my_log","SELECT:${cursor.getString(1)}")
-                    Log.i("my_log","SELECT:${cursor.getString(2)}")
-                    Log.i("my_log","SELECT:${cursor.getString(3)}")
-                    Log.i("my_log","SELECT:${cursor.getString(4)}")
-                    Log.i("my_log","SELECT:${cursor.getString(5)}")
-                    Log.i("my_log","SELECT:${cursor.getString(6)}")
-                    arrayListId.add(cursor.getString(0))
-                    arrayListDate.add("${cursor.getString(1)}/${cursor.getString(2)}/${cursor.getString(3)}")
-                    arrayListProduct.add(cursor.getString(4))
-                    arrayListPrice.add(cursor.getInt(5))
-                    arrayListTag.add(cursor.getString(6))
-
-
-                    cursor.moveToNext()
-                }
-            }
-        }catch(exception: Exception) {
-            Log.e("selectData", exception.toString());
-        }
-    }
     override fun onBackPressed() {
         //super.onBackPressed()
         // 選択中のタブのRootFragmentにバックスタックがあれば戻る処理
@@ -232,33 +189,7 @@ tab.getTabAt(1)!!.select()
 
 
     }
-    fun getIDSQL(SQLID:String, returnArray:MutableList<String> ){
-        try {//これで取得できる
 
-
-            val dbHelper = DBHelper(applicationContext, dbName, null, dbVersion)
-            val database = dbHelper.readableDatabase
-
-            val sql = "SELECT * FROM KakeiboTable WHERE _id= ${SQLID.toInt()} ORDER BY _id;"
-
-            val cursor = database.rawQuery(sql, null)
-            if (cursor.count > 0) {
-                cursor.moveToFirst()
-                while (!cursor.isAfterLast) {
-                    returnArray.add(cursor.getString(0))// ID
-                    returnArray.add(cursor.getString(1))// YYYY
-                    returnArray.add(cursor.getString(2))// MM
-                    returnArray.add(cursor.getString(3))// DD
-                    returnArray.add(cursor.getString(4))// product
-                    returnArray.add(cursor.getString(5))// price
-                    returnArray.add(cursor.getString(6))// tag
-                    cursor.moveToNext()
-                }
-            }
-        }catch(exception: Exception) {
-            Log.e("selectData", exception.toString());
-        }
-    }
     private fun confirmOutput() {
         AlertDialog.Builder(this)
                 .setTitle("CSV出力")
@@ -276,49 +207,7 @@ tab.getTabAt(1)!!.select()
                 false
             } else {
                 createFile("text/csv","Kakeibo_${year}_${month}_${day}.csv")
-             /*   val exportDir = getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS).toString()
-Log.i("my_log",exportDir)
-
-                var printWriter: PrintWriter? = null
-                try {
-
-                    printWriter = PrintWriter(OutputStreamWriter(FileOutputStream("$exportDir/Kakeibo_${year}_${month}_${day}.csv",true), "Shift-JIS"))
-                    val dbHelper = DBHelper(applicationContext, dbName, null, dbVersion)
-                    val database = dbHelper.readableDatabase
-                    val curCSV = database.rawQuery("select * from $tableName ORDER BY year,month,day;" , null)
-                    // CSVファイルのヘッダーを書き出し
-                    printWriter.println("year,month,day,product,price,tag")
-                    // データの行数分CSV形式でデータを書き出し
-                    while (curCSV.moveToNext()) {
-                        val year = curCSV.getString(curCSV.getColumnIndex("year"))
-                        val month = curCSV.getString(curCSV.getColumnIndex("month"))
-                        val day = curCSV.getString(curCSV.getColumnIndex("day"))
-                        val product = curCSV.getString(curCSV.getColumnIndex("product"))
-                        val price = curCSV.getString(curCSV.getColumnIndex("price"))
-                        val tag = curCSV.getString(curCSV.getColumnIndex("tag"))
-                        val record = "$year,$month,$day,$product,$price,$tag"
-                        printWriter.println(record)
-
-                    }
-                    curCSV.close()
-                    database.close()
-                } catch (exc: FileNotFoundException) {
-                    // フォルダへのアクセス権限がない場合の表示
-                    val ts = Toast.makeText(this, "アクセス権限がありません", Toast.LENGTH_SHORT)
-                    ts.show()
-                    exc.printStackTrace()
-                    return false
-                } catch (exc: Exception) {
-                    val ts = Toast.makeText(this, "CSV出力が失敗しました", Toast.LENGTH_SHORT)
-                    ts.show()
-                    exc.printStackTrace()
-                    return false
-                } finally {
-                    printWriter?.close()
-                }
-                val ts = Toast.makeText(this, "CSVに出力しました", Toast.LENGTH_SHORT)
-                ts.show()
-                */true
+             true
             }
 
 
@@ -372,6 +261,10 @@ Log.i("my_log",exportDir)
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode==45&&resultCode==Activity.RESULT_OK){
+            WHERE = data!!.getStringExtra("where")!!
+            confirmOutput()
+        }
         if (requestCode == WRITE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             data?.data?.let {  uri ->
                 contentResolver.openOutputStream(uri).use { outputStream ->
@@ -382,9 +275,9 @@ Log.i("my_log",exportDir)
                         //printWriter = PrintWriter(OutputStreamWriter(FileOutputStream("$uri/Kakeibo_${year}_${month}_${day}.csv",true), "Shift-JIS"))
                         val dbHelper = DBHelper(applicationContext, dbName, null, dbVersion)
                         val database = dbHelper.readableDatabase
-                        val curCSV = database.rawQuery("select * from $tableName ORDER BY year,month,day;" , null)
+                        val curCSV = database.rawQuery("select * from $tableName "+WHERE+" ORDER BY year,month,day;" , null)
                         // CSVファイルのヘッダーを書き出し
-                        printWriter.println("year,month,day,product,price,tag")
+                        printWriter.println("date,year,month,day,product,price,tag")
                         // データの行数分CSV形式でデータを書き出し
                         while (curCSV.moveToNext()) {
                             val year = curCSV.getString(curCSV.getColumnIndex("year"))
@@ -393,7 +286,7 @@ Log.i("my_log",exportDir)
                             val product = curCSV.getString(curCSV.getColumnIndex("product"))
                             val price = curCSV.getString(curCSV.getColumnIndex("price"))
                             val tag = curCSV.getString(curCSV.getColumnIndex("tag"))
-                            val record = "$year,$month,$day,$product,$price,$tag"
+                            val record = "$year/$month/$day,$year,$month,$day,$product,$price,$tag"
                             printWriter.println(record)
 
                         }
@@ -411,7 +304,7 @@ Log.i("my_log",exportDir)
                         exc.printStackTrace()
 
                     } finally {
-                        printWriter?.close()
+                        printWriter.close()
                     }
                     val ts = Toast.makeText(this, "CSVに出力しました", Toast.LENGTH_SHORT)
                     ts.show()
